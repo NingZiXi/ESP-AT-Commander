@@ -1,0 +1,18 @@
+name: MQTT 测试
+description: 配置并连接 MQTT Broker，发布一条消息后断开
+steps:
+  - send: AT+CWMODE=1
+    wait: OK
+  - send: AT+CWJAP="{ssid}","{password}"
+    wait: OK
+    timeout: 15000
+  - delay: 1000
+  - send: AT+MQTTUSERCFG=0,1,"esp32-client","","",0,0,""
+    wait: OK
+  - send: AT+MQTTCONN=0,"{broker}",1883,1
+    wait: OK
+    timeout: 10000
+  - send: AT+MQTTPUB=0,"/test","hello from ESP",1,0
+    wait: OK
+  - send: AT+MQTTCLEAN=0
+    wait: OK

@@ -1,0 +1,15 @@
+name: ESP32 Init
+description: 上电初始化流程
+steps:
+  - send: AT
+    wait: OK
+    timeout: 1000
+  - send: AT+RST
+    wait: ready
+    timeout: 3000
+  - delay: 500
+  - send: AT+CWMODE=1
+    wait: OK
+  - send: 'AT+CWJAP="test","12345678"'
+    wait: OK
+    timeout: 15000

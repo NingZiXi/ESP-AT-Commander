@@ -1,0 +1,11 @@
+name: Wi-Fi 连接
+description: 设置 Station 模式并连接指定 Wi-Fi 热点
+steps:
+  - send: AT+CWMODE=1
+    wait: OK
+  - send: AT+CWJAP="{ssid}","{password}"
+    wait: OK
+    timeout: 15000
+  - delay: 1000
+  - send: AT+CIFSR
+    wait: OK

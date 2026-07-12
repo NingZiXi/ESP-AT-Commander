@@ -1,0 +1,24 @@
+[package]
+name = "esp-at-commander"
+version = "0.1.0"
+description = "ESP-AT Commander — ESP32/ESP8266 AT 命令桌面工具,支持脚本化、收藏、模板"
+authors = ["NingZiXi <https://github.com/NingZiXi>"]
+edition = "2021"
+license = "MIT"
+repository = "https://github.com/NingZiXi/ESP-AT-Commander"
+
+[lib]
+name = "esp_at_commander_lib"
+crate-type = ["staticlib", "cdylib", "rlib"]
+
+[build-dependencies]
+tauri-build = { version = "2", features = [] }
+
+[dependencies]
+tauri = { version = "2", features = [] }
+tauri-plugin-dialog = "2"
+tauri-plugin-fs = "2"
+serde = { version = "1", features = ["derive"] }
+serde_json = "1"
+serde_yaml = "0.9"
+serialport = "4"

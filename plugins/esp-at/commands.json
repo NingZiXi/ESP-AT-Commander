@@ -1,0 +1,362 @@
+{
+  "version": 3,
+  "plugin": "esp-at",
+  "categories": [
+    {
+      "id": "basic",
+      "name": "Basic",
+      "icon": "stack",
+      "commands": [
+        { "id": "AT", "name": "AT", "summary": "测试 AT 启动", "description": "测试 AT 固件是否正常启动。成功返回 OK。", "template": "AT", "params": [] },
+        { "id": "RST", "name": "AT+RST", "summary": "重启模块", "description": "重启 ESP 模块，重置所有运行时状态（不影响 flash 保存的配置）。", "template": "AT+RST", "params": [] },
+        { "id": "GMR", "name": "AT+GMR", "summary": "查看版本信息", "description": "查询固件版本、SDK 版本、编译时间和芯片型号等信息。", "template": "AT+GMR", "params": [] },
+        { "id": "CMD", "name": "AT+CMD", "summary": "列出支持的 AT 命令", "description": "查询当前固件支持的所有 AT 命令及其类型（测试/查询/设置/执行）。", "template": "AT+CMD?", "params": [] },
+        { "id": "RESTORE", "name": "AT+RESTORE", "summary": "恢复出厂设置", "description": "清除 flash 中所有保存的配置参数，恢复到出厂默认状态并重启模块。", "template": "AT+RESTORE", "params": [] },
+        { "id": "ATE0", "name": "ATE0", "summary": "关闭回显", "description": "关闭 AT 命令回显，发送的命令不会被原样返回。", "template": "ATE0", "params": [] },
+        { "id": "ATE1", "name": "ATE1", "summary": "开启回显", "description": "开启 AT 命令回显，发送的命令会被原样返回（默认状态）。", "template": "ATE1", "params": [] },
+        {
+          "id": "UART_CUR",
+          "name": "AT+UART_CUR",
+          "summary": "设置当前串口参数",
+          "description": "设置当前串口波特率、数据位、停止位、校验位和流控。参数不保存到 flash，重启后失效。",
+          "template": "AT+UART_CUR={baud},{databits},{stopbits},{parity},{flow_control}",
+          "params": [
+            { "id": "baud", "label": "波特率", "type": "number", "default": 115200, "required": true },
+            { "id": "databits", "label": "数据位", "type": "select", "options": ["5", "6", "7", "8"], "default": "8" },
+            { "id": "stopbits", "label": "停止位", "type": "select", "options": ["1", "2"], "default": "1" },
+            { "id": "parity", "label": "校验位", "type": "select", "options": ["0", "1", "2"], "default": "0" },
+            { "id": "flow_control", "label": "流控", "type": "select", "options": ["0", "1", "2", "3"], "default": "0" }
+          ]
+        },
+        {
+          "id": "SLEEP",
+          "name": "AT+SLEEP",
+          "summary": "设置睡眠模式",
+          "description": "设置模块睡眠模式：0=禁用，1=Modem-sleep（射频根据 AP DTIM 定期关闭），2=Light-sleep（CPU 和射频均睡眠）。",
+          "template": "AT+SLEEP={mode}",
+          "params": [
+            { "id": "mode", "label": "模式", "type": "select", "options": ["0", "1", "2"], "default": "0" }
+          ]
+        },
+        { "id": "SYSRAM", "name": "AT+SYSRAM?", "summary": "查询剩余内存", "description": "查询当前剩余堆内存大小和最小堆内存大小（单位：字节）。", "template": "AT+SYSRAM?", "params": [] },
+        { "id": "SYSMSG", "name": "AT+SYSMSG", "summary": "查询系统提示信息", "description": "查询或设置系统提示信息格式，控制 WIFI CONNECTED 等消息的输出方式。", "template": "AT+SYSMSG?", "params": [] },
+        { "id": "RFPOWER", "name": "AT+RFPOWER", "summary": "查询/设置 RF 功率", "description": "查询或设置 Wi-Fi 和蓝牙的射频发射功率（范围 0~84，单位 0.25dBm）。", "template": "AT+RFPOWER?", "params": [] },
+        { "id": "SYSTIMESTAMP", "name": "AT+SYSTIMESTAMP", "summary": "查询/设置时间戳", "description": "查询或设置本地时间戳（Unix 时间），用于 SNTP 校时前的初始时间设置。", "template": "AT+SYSTIMESTAMP?", "params": [] }
+      ]
+    },
+    {
+      "id": "wifi",
+      "name": "Wi-Fi",
+      "icon": "wifi",
+      "commands": [
+        {
+          "id": "CWMODE",
+          "name": "AT+CWMODE",
+          "summary": "设置 Wi-Fi 模式",
+          "description": "设置 Wi-Fi 工作模式：0=关闭，1=Station（连接 AP），2=SoftAP（作为热点），3=Station+SoftAP（混合模式）。",
+          "template": "AT+CWMODE={mode}",
+          "params": [
+            { "id": "mode", "label": "模式", "type": "select", "options": ["0", "1", "2", "3"], "default": "1" }
+          ],
+          "responses": ["OK"]
+        },
+        { "id": "CWSTATE", "name": "AT+CWSTATE?", "summary": "查询 Wi-Fi 状态", "description": "查询 Wi-Fi 连接状态和信息。返回值：0=未连接，1=已连接但未获 IP，2=已连接且获 IP，3=正在重连，4=连接失败。", "template": "AT+CWSTATE?", "params": [] },
+        { "id": "CWLAP", "name": "AT+CWLAP", "summary": "扫描可用 AP", "description": "扫描周围的 Wi-Fi 热点，返回每个 AP 的 MAC、信道、RSSI、加密方式、SSID 等信息。", "template": "AT+CWLAP", "params": [] },
+        {
+          "id": "CWJAP",
+          "name": "AT+CWJAP",
+          "summary": "连接 AP",
+          "description": "连接到指定 SSID 和密码的 Wi-Fi 热点。连接成功后返回 WIFI CONNECTED → WIFI GOT IP → OK。",
+          "template": "AT+CWJAP=\"{ssid}\",\"{password}\"",
+          "params": [
+            { "id": "ssid", "label": "SSID", "type": "string", "required": true },
+            { "id": "password", "label": "Password", "type": "password", "required": true }
+          ],
+          "responses": ["OK", "ERROR", "+CWJAP:<err>"]
+        },
+        { "id": "CWJAP_QUERY", "name": "AT+CWJAP?", "summary": "查询当前 AP", "description": "查询当前已连接的 AP 信息，包括 SSID、MAC 地址、信道、RSSI 等。", "template": "AT+CWJAP?", "params": [] },
+        { "id": "CWQAP", "name": "AT+CWQAP", "summary": "断开 AP", "description": "断开当前连接的 Wi-Fi 热点。", "template": "AT+CWQAP", "params": [] },
+        {
+          "id": "CWSAP",
+          "name": "AT+CWSAP",
+          "summary": "设置 SoftAP 参数",
+          "description": "配置 ESP 模块作为热点（SoftAP）的 SSID、密码、信道和认证方式。仅 CWMODE=2 或 3 时有效。",
+          "template": "AT+CWSAP=\"{ssid}\",\"{pwd}\",{channel},{auth}",
+          "params": [
+            { "id": "ssid", "label": "SSID", "type": "string", "required": true },
+            { "id": "pwd", "label": "密码", "type": "password", "required": true },
+            { "id": "channel", "label": "信道", "type": "number", "default": 1, "required": true },
+            { "id": "auth", "label": "认证模式", "type": "select", "options": ["0", "1", "2", "3", "4"], "default": "3" }
+          ]
+        },
+        { "id": "CWDHCP", "name": "AT+CWDHCP", "summary": "启用/禁用 DHCP", "description": "控制 DHCP 功能：mode=0=SoftAP，1=Station，2=两者；en=0=禁用，1=启用。", "template": "AT+CWDHCP={mode},{en}", "params": [
+          { "id": "mode", "label": "模式", "type": "select", "options": ["0", "1", "2"], "default": "1" },
+          { "id": "en", "label": "启用", "type": "select", "options": ["0", "1"], "default": "1" }
+        ]},
+        { "id": "CIPSTAMAC", "name": "AT+CIPSTAMAC?", "summary": "查询 STA MAC 地址", "description": "查询 Station 模式的 MAC 地址。", "template": "AT+CIPSTAMAC?", "params": [] },
+        { "id": "CIPAPMAC", "name": "AT+CIPAPMAC?", "summary": "查询 SoftAP MAC", "description": "查询 SoftAP 模式的 MAC 地址。", "template": "AT+CIPAPMAC?", "params": [] },
+        { "id": "CIPSTA", "name": "AT+CIPSTA?", "summary": "查询 STA IP 地址", "description": "查询 Station 模式的 IP 地址、网关和子网掩码。", "template": "AT+CIPSTA?", "params": [] },
+        { "id": "CIPAP", "name": "AT+CIPAP?", "summary": "查询 SoftAP IP", "description": "查询 SoftAP 模式的 IP 地址、网关和子网掩码。", "template": "AT+CIPAP?", "params": [] },
+        { "id": "CWHOSTNAME", "name": "AT+CWHOSTNAME?", "summary": "查询 STA 主机名", "description": "查询 Station 模式的 DHCP 主机名（hostname）。", "template": "AT+CWHOSTNAME?", "params": [] },
+        { "id": "CWAUTOCONN", "name": "AT+CWAUTOCONN", "summary": "上电自动连接", "description": "设置上电时是否自动连接上次保存的 AP。enable=true=自动连接，false=不自动连接。", "template": "AT+CWAUTOCONN={enable}", "params": [
+          { "id": "enable", "label": "启用", "type": "boolean", "default": true }
+        ]},
+        { "id": "CWSTARTSMART", "name": "AT+CWSTARTSMART", "summary": "启动 SmartConfig", "description": "启动 SmartConfig 功能，通过手机 APP 广播 Wi-Fi 凭据让 ESP 自动获取并连接。", "template": "AT+CWSTARTSMART", "params": [] },
+        { "id": "CWSTOPSMART", "name": "AT+CWSTOPSMART", "summary": "停止 SmartConfig", "description": "停止 SmartConfig 功能。", "template": "AT+CWSTOPSMART", "params": [] },
+        { "id": "WPS", "name": "AT+WPS", "summary": "启用 WPS", "description": "启用 WPS 功能，通过路由器 WPS 按钮自动连接 Wi-Fi。", "template": "AT+WPS", "params": [] }
+      ]
+    },
+    {
+      "id": "tcp",
+      "name": "TCP/IP",
+      "icon": "network",
+      "commands": [
+        { "id": "CIPSTATUS", "name": "AT+CIPSTATUS", "summary": "查询连接状态", "description": "查询当前 TCP/UDP/SSL 连接状态和信息，包括连接 ID、类型、远端 IP 和端口。", "template": "AT+CIPSTATUS", "params": [] },
+        {
+          "id": "CIPDOMAIN",
+          "name": "AT+CIPDOMAIN",
+          "summary": "域名解析",
+          "description": "将域名解析为 IP 地址（DNS 查询）。需先连接 Wi-Fi。",
+          "template": "AT+CIPDOMAIN=\"{domain}\"",
+          "params": [
+            { "id": "domain", "label": "域名", "type": "string", "required": true }
+          ]
+        },
+        {
+          "id": "CIPSTART",
+          "name": "AT+CIPSTART",
+          "summary": "建立网络连接",
+          "description": "建立 TCP、UDP 或 SSL 连接到指定的远端主机和端口。type 支持 TCP/UDP/SSL。",
+          "template": "AT+CIPSTART=\"{type}\",\"{host}\",{port}",
+          "params": [
+            { "id": "type", "label": "连接类型", "type": "select", "options": ["TCP", "UDP", "SSL"], "default": "TCP", "required": true },
+            { "id": "host", "label": "主机地址", "type": "string", "required": true },
+            { "id": "port", "label": "端口", "type": "number", "required": true }
+          ]
+        },
+        {
+          "id": "CIPSEND",
+          "name": "AT+CIPSEND",
+          "summary": "发送数据",
+          "description": "在普通传输模式下发送指定长度的数据。设置后等待 > 提示符再输入数据内容。",
+          "template": "AT+CIPSEND={length}",
+          "params": [
+            { "id": "length", "label": "数据长度", "type": "number", "required": true }
+          ]
+        },
+        { "id": "CIPCLOSE", "name": "AT+CIPCLOSE", "summary": "关闭网络连接", "description": "关闭当前 TCP/UDP/SSL 连接。", "template": "AT+CIPCLOSE", "params": [] },
+        { "id": "CIFSR", "name": "AT+CIFSR", "summary": "获取本地 IP", "description": "获取 Station 和 SoftAP 模式的本地 IP 地址和 MAC 地址。", "template": "AT+CIFSR", "params": [] },
+        { "id": "CIPMUX", "name": "AT+CIPMUX", "summary": "设置多连接模式", "description": "启用/禁用多连接模式：0=单连接，1=多连接（最多 5 个连接 ID 0~4）。需在连接前设置。", "template": "AT+CIPMUX={mode}", "params": [
+          { "id": "mode", "label": "模式", "type": "select", "options": ["0", "1"], "default": "0" }
+        ]},
+        { "id": "CIPMODE", "name": "AT+CIPMODE?", "summary": "查询传输模式", "description": "查询传输模式：0=普通传输模式，1=透传模式（仅 TCP/SSL 单连接支持）。", "template": "AT+CIPMODE?", "params": [] },
+        {
+          "id": "CIPSERVER",
+          "name": "AT+CIPSERVER",
+          "summary": "创建/删除服务器",
+          "description": "创建或删除 TCP/SSL 服务器。mode=1=创建，0=删除。port 为监听端口。需先 AT+CIPMUX=1。",
+          "template": "AT+CIPSERVER={mode},{port}",
+          "params": [
+            { "id": "mode", "label": "模式", "type": "select", "options": ["0", "1"], "default": "1" },
+            { "id": "port", "label": "端口", "type": "number", "default": 80, "required": true }
+          ]
+        },
+        {
+          "id": "CIPSTO",
+          "name": "AT+CIPSTO",
+          "summary": "设置服务器超时",
+          "description": "设置 TCP 服务器的连接超时时间（秒）。超时后空闲连接自动断开。",
+          "template": "AT+CIPSTO={timeout}",
+          "params": [
+            { "id": "timeout", "label": "超时(秒)", "type": "number", "default": 60 }
+          ]
+        },
+        { "id": "CIPSNTPCFG", "name": "AT+CIPSNTPCFG", "summary": "查询/设置 SNTP", "description": "查询或设置 SNTP 时区和 NTP 服务器地址，用于网络校时。", "template": "AT+CIPSNTPCFG?", "params": [] },
+        { "id": "CIPSNTPTIME", "name": "AT+CIPSNTPTIME?", "summary": "查询 SNTP 时间", "description": "查询 SNTP 同步后的当前时间。需先配置 AT+CIPSNTPCFG。", "template": "AT+CIPSNTPTIME?", "params": [] },
+        { "id": "CIUPDATE", "name": "AT+CIUPDATE", "summary": "OTA 固件升级", "description": "通过 Wi-Fi 从指定服务器下载固件并升级。升级过程中模块会自动重启。", "template": "AT+CIUPDATE", "params": [] },
+        { "id": "PING", "name": "AT+PING", "summary": "Ping 主机", "description": "向指定主机发送 Ping 包测试网络连通性，返回响应时间和 TTL。", "template": "AT+PING=\"{host}\"", "params": [
+          { "id": "host", "label": "主机", "type": "string", "required": true }
+        ]},
+        { "id": "CIPDNS", "name": "AT+CIPDNS?", "summary": "查询 DNS 服务器", "description": "查询当前使用的 DNS 服务器地址。", "template": "AT+CIPDNS?", "params": [] }
+      ]
+    },
+    {
+      "id": "mqtt",
+      "name": "MQTT",
+      "icon": "cloud",
+      "commands": [
+        {
+          "id": "MQTTUSERCFG",
+          "name": "AT+MQTTUSERCFG",
+          "summary": "设置 MQTT 用户配置",
+          "description": "配置 MQTT 用户属性。scheme：1=MQTT over TCP，2=TLS 不校验证书，3=TLS 校验 server 证书，4=TLS 提供 client 证书，5=TLS 双向校验，6=WebSocket TCP，7~10=WebSocket Secure。",
+          "template": "AT+MQTTUSERCFG=0,{scheme},\"{client_id}\",\"{username}\",\"{password}\",0,0,\"\"",
+          "params": [
+            { "id": "scheme", "label": "连接方案", "type": "select", "options": ["1", "2", "3", "4", "5", "6", "7", "8"], "default": "1" },
+            { "id": "client_id", "label": "Client ID", "type": "string", "required": true },
+            { "id": "username", "label": "用户名", "type": "string" },
+            { "id": "password", "label": "密码", "type": "password" }
+          ]
+        },
+        {
+          "id": "MQTTCONNCFG",
+          "name": "AT+MQTTCONNCFG",
+          "summary": "设置 MQTT 连接配置",
+          "description": "设置 MQTT 连接参数，包括心跳间隔（keepalive）、会话清理标志等。",
+          "template": "AT+MQTTCONNCFG=0,0,0,{keepalive},1,\"\"",
+          "params": [
+            { "id": "keepalive", "label": "心跳(秒)", "type": "number", "default": 60 }
+          ]
+        },
+        {
+          "id": "MQTTCONN",
+          "name": "AT+MQTTCONN",
+          "summary": "连接 MQTT Broker",
+          "description": "连接到指定 MQTT Broker。host 为 broker 地址，port 为端口（通常 1883/TCP 或 8883/TLS）。",
+          "template": "AT+MQTTCONN=0,\"{host}\",{port},1",
+          "params": [
+            { "id": "host", "label": "Broker 地址", "type": "string", "required": true },
+            { "id": "port", "label": "端口", "type": "number", "default": 1883, "required": true }
+          ]
+        },
+        {
+          "id": "MQTTPUB",
+          "name": "AT+MQTTPUB",
+          "summary": "发布消息",
+          "description": "向指定主题发布字符串格式的 MQTT 消息。",
+          "template": "AT+MQTTPUB=0,\"{topic}\",\"{data}\",1,0",
+          "params": [
+            { "id": "topic", "label": "主题", "type": "string", "required": true },
+            { "id": "data", "label": "消息内容", "type": "string", "required": true }
+          ]
+        },
+        {
+          "id": "MQTTSUB",
+          "name": "AT+MQTTSUB",
+          "summary": "订阅主题",
+          "description": "订阅指定 MQTT 主题。收到消息时会触发 +MQTTSUBRECV 事件推送。",
+          "template": "AT+MQTTSUB=0,\"{topic}\",1",
+          "params": [
+            { "id": "topic", "label": "主题", "type": "string", "required": true }
+          ]
+        },
+        {
+          "id": "MQTTUNSUB",
+          "name": "AT+MQTTUNSUB",
+          "summary": "取消订阅",
+          "description": "取消订阅指定 MQTT 主题。",
+          "template": "AT+MQTTUNSUB=0,\"{topic}\"",
+          "params": [
+            { "id": "topic", "label": "主题", "type": "string", "required": true }
+          ]
+        },
+        { "id": "MQTTCLEAN", "name": "AT+MQTTCLEAN", "summary": "关闭 MQTT 连接", "description": "关闭 MQTT 连接并释放资源。", "template": "AT+MQTTCLEAN=0", "params": [] }
+      ]
+    },
+    {
+      "id": "http",
+      "name": "HTTP",
+      "icon": "globe",
+      "commands": [
+        {
+          "id": "HTTPCLIENT",
+          "name": "AT+HTTPCLIENT",
+          "summary": "发送 HTTP 请求",
+          "description": "发送 HTTP 请求。opt：1=HEAD，2=GET，3=POST，4=PUT，5=DELETE；content_type：0=form，1=json，2=multipart，3=xml；transport：1=HTTP(TCP)，2=HTTPS(SSL)。",
+          "template": "AT+HTTPCLIENT={opt},{content_type},\"{url}\",\"\",\"\",{transport}",
+          "params": [
+            { "id": "opt", "label": "方法", "type": "select", "options": ["1", "2", "3", "4", "5"], "default": "2" },
+            { "id": "content_type", "label": "内容类型", "type": "select", "options": ["0", "1", "2", "3"], "default": "1" },
+            { "id": "url", "label": "URL", "type": "string", "required": true },
+            { "id": "transport", "label": "传输方式", "type": "select", "options": ["1", "2"], "default": "1" }
+          ]
+        },
+        {
+          "id": "HTTPGETSIZE",
+          "name": "AT+HTTPGETSIZE",
+          "summary": "获取 HTTP 资源大小",
+          "description": "获取指定 URL 资源的内容长度（Content-Length），不下载实际内容。",
+          "template": "AT+HTTPGETSIZE=\"{url}\"",
+          "params": [
+            { "id": "url", "label": "URL", "type": "string", "required": true }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "ble",
+      "name": "Bluetooth LE",
+      "icon": "bluetooth",
+      "commands": [
+        {
+          "id": "BLEINIT",
+          "name": "AT+BLEINIT",
+          "summary": "初始化 BLE",
+          "description": "初始化蓝牙 LE。mode：0=反初始化，1=client 角色，2=server 角色。",
+          "template": "AT+BLEINIT={mode}",
+          "params": [
+            { "id": "mode", "label": "模式", "type": "select", "options": ["0", "1", "2"], "default": "1" }
+          ]
+        },
+        { "id": "BLEADDR", "name": "AT+BLEADDR?", "summary": "查询 BLE 地址", "description": "查询蓝牙 LE 设备地址。", "template": "AT+BLEADDR?", "params": [] },
+        {
+          "id": "BLENAME",
+          "name": "AT+BLENAME",
+          "summary": "设置 BLE 名称",
+          "description": "设置蓝牙 LE 设备名称，其他设备扫描时显示此名称。",
+          "template": "AT+BLENAME=\"{name}\"",
+          "params": [
+            { "id": "name", "label": "名称", "type": "string", "default": "ESP-AT", "required": true }
+          ]
+        },
+        {
+          "id": "BLESCAN",
+          "name": "AT+BLESCAN",
+          "summary": "启用 BLE 扫描",
+          "description": "启用蓝牙 LE 扫描，持续指定时间（秒）。扫描结果通过 +BLESCAN 事件推送。",
+          "template": "AT+BLESCAN=1,{duration}",
+          "params": [
+            { "id": "duration", "label": "持续时间(秒)", "type": "number", "default": 3, "required": true }
+          ]
+        },
+        {
+          "id": "BLEADVPARAM",
+          "name": "AT+BLEADVPARAM",
+          "summary": "设置广播参数",
+          "description": "设置蓝牙 LE 广播参数，包括广播间隔、类型、地址类型、信道和过滤策略。",
+          "template": "AT+BLEADVPARAM={min_int},{max_int},{adv_type},{addr_type},{channel},{filter}",
+          "params": [
+            { "id": "min_int", "label": "最小间隔", "type": "number", "default": 32 },
+            { "id": "max_int", "label": "最大间隔", "type": "number", "default": 64 },
+            { "id": "adv_type", "label": "广播类型", "type": "select", "options": ["0", "1", "2", "3"], "default": "0" },
+            { "id": "addr_type", "label": "地址类型", "type": "select", "options": ["0", "1"], "default": "0" },
+            { "id": "channel", "label": "信道", "type": "select", "options": ["0", "1", "2", "3", "4", "5", "6", "7"], "default": "7" },
+            { "id": "filter", "label": "过滤策略", "type": "select", "options": ["0", "1", "2", "3"], "default": "0" }
+          ]
+        },
+        { "id": "BLEADVSTART", "name": "AT+BLEADVSTART", "summary": "开始广播", "description": "开始蓝牙 LE 广播，让其他设备能扫描到本设备。", "template": "AT+BLEADVSTART", "params": [] },
+        { "id": "BLEADVSTOP", "name": "AT+BLEADVSTOP", "summary": "停止广播", "description": "停止蓝牙 LE 广播。", "template": "AT+BLEADVSTOP", "params": [] },
+        {
+          "id": "BLECONN",
+          "name": "AT+BLECONN",
+          "summary": "建立 BLE 连接",
+          "description": "主动连接指定地址的蓝牙 LE 设备（作为 client 角色）。",
+          "template": "AT+BLECONN=0,\"{addr}\"",
+          "params": [
+            { "id": "addr", "label": "设备地址", "type": "string", "required": true }
+          ]
+        },
+        {
+          "id": "BLEDISCONN",
+          "name": "AT+BLEDISCONN",
+          "summary": "断开 BLE 连接",
+          "description": "断开指定地址的蓝牙 LE 连接。",
+          "template": "AT+BLEDISCONN=0,\"{addr}\"",
+          "params": [
+            { "id": "addr", "label": "设备地址", "type": "string", "required": true }
+          ]
+        }
+      ]
+    }
+  ]
+}

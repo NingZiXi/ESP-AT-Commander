@@ -1,0 +1,165 @@
+/* ESP-AT Commander 设计令牌 — 对齐设计稿 */
+:root {
+  color-scheme: light;
+
+  /* 表面 */
+  --surface: #ffffff;
+  --surface-muted: #f5f5f5;
+  --surface-2: #ffffff;
+  --surface-tertiary: #e5e5e5;
+
+  /* overlay */
+  --overlay-1: rgba(115, 115, 115, 0.08);
+  --overlay-2: rgba(115, 115, 115, 0.12);
+  --overlay-3: rgba(115, 115, 115, 0.16);
+  --overlay-4: rgba(115, 115, 115, 0.20);
+
+  /* 文字 */
+  --text: #171717;
+  --text-secondary: #404040;
+  --text-muted: #737373;
+  --text-disabled: #a1a1a1;
+  --text-onbrand: #ffffff;
+
+  /* 边框 */
+  --border: rgba(115, 115, 115, 0.12);
+  --border-strong: rgba(115, 115, 115, 0.18);
+  --border-stronger: rgba(115, 115, 115, 0.36);
+
+  /* 品牌色（紫） */
+  --brand: #4b3fe3;
+  --brand-hover: #6a6fff;
+  --brand-active: #3f31c6;
+  --brand-soft: rgba(170, 183, 255, 0.36);
+  --brand-soft-strong: rgba(170, 183, 255, 0.5);
+  --brand-text: #4b3fe3;
+  --brand-on: #ffffff;
+  --brand-glow: rgba(75, 63, 227, 0.35);
+  --brand-disabled: rgba(75, 63, 227, 0.22);
+
+  /* Terminal 语义色 */
+  --tx: #2f74ff;
+  --tx-soft: rgba(47, 116, 255, 0.12);
+  --ok: #15a877;
+  --ok-soft: rgba(64, 176, 139, 0.12);
+  --warn: #e27900;
+  --warn-soft: rgba(226, 121, 0, 0.12);
+  --err: #e8463a;
+  --err-soft: rgba(232, 70, 58, 0.12);
+  --evt: #4b3fe3;
+
+  /* code 语法高亮 */
+  --code-text: #17181a;
+  --code-doc: #8393a3;
+  --code-number: #e54595;
+  --code-parameter: #4da621;
+  --code-string: #4da621;
+
+  /* 圆角 */
+  --radius-0: 0px;
+  --radius-2: 2px;
+  --radius-4: 4px;
+  --radius-6: 6px;
+  --radius-8: 8px;
+  --radius-12: 12px;
+  --radius-full: 999px;
+  --radius: var(--radius-8);
+  --radius-card: var(--radius-12);
+
+  /* 间距 */
+  --spacer-2: 2px;
+  --spacer-4: 4px;
+  --spacer-6: 6px;
+  --spacer-8: 8px;
+  --spacer-10: 10px;
+  --spacer-12: 12px;
+  --spacer-16: 16px;
+  --spacer-20: 20px;
+  --spacer-24: 24px;
+  --spacer-32: 32px;
+
+  /* 阴影 */
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.04);
+  --shadow-md: 0 4px 16px rgba(0, 0, 0, 0.08);
+  --shadow-lg: 0 12px 40px rgba(0, 0, 0, 0.16);
+  --shadow-brand: 0 4px 16px var(--brand-glow);
+
+  /* 过渡 */
+  --ease: cubic-bezier(0.4, 0, 0.2, 1);
+  --ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
+  --t-fast: 0.12s var(--ease);
+  --t-base: 0.2s var(--ease);
+  --t-slow: 0.32s var(--ease);
+
+  /* 字体 */
+  --font-sans: "SF Pro Text", "PingFang SC", system-ui, -apple-system,
+    "Segoe UI", Roboto, sans-serif;
+  --font-heading: "SF Pro", "PingFang SC", system-ui, -apple-system,
+    "Segoe UI", Roboto, sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, "SF Mono", Menlo, Consolas,
+    monospace;
+
+  /* 字重 */
+  --weight-regular: 400;
+  --weight-medium: 500;
+  --weight-strong: 600;
+
+  /* 字号 */
+  --text-xs: 13px;
+  --text-sm: 14px;
+  --text-md: 15px;
+  --text-base: 17px;
+  --text-lg: 19px;
+  --text-xl: 26px;
+  --line-tight: 1.25;
+  --line-normal: 1.55;
+}
+
+:root[data-theme="dark"] {
+  color-scheme: dark;
+
+  --surface: #1c1c20;
+  --surface-muted: #141416;
+  --surface-2: #1c1c20;
+  --surface-tertiary: #2a2a2e;
+
+  --overlay-1: rgba(255, 255, 255, 0.06);
+  --overlay-2: rgba(255, 255, 255, 0.10);
+  --overlay-3: rgba(255, 255, 255, 0.14);
+  --overlay-4: rgba(255, 255, 255, 0.18);
+
+  --text: #e8e8ea;
+  --text-secondary: #b0b0b8;
+  --text-muted: #8a8a93;
+  --text-disabled: #5a5a63;
+
+  --border: rgba(255, 255, 255, 0.10);
+  --border-strong: rgba(255, 255, 255, 0.16);
+  --border-stronger: rgba(255, 255, 255, 0.28);
+
+  --brand: #6a6fff;
+  --brand-hover: #8894ff;
+  --brand-active: #5a52d4;
+  --brand-soft: rgba(106, 111, 255, 0.20);
+  --brand-soft-strong: rgba(106, 111, 255, 0.32);
+  --brand-text: #aab7ff;
+  --brand-glow: rgba(106, 111, 255, 0.4);
+
+  --tx: #4c88ff;
+  --tx-soft: rgba(76, 136, 255, 0.16);
+  --ok: #2fb287;
+  --ok-soft: rgba(47, 178, 135, 0.16);
+  --warn: #f39a35;
+  --warn-soft: rgba(243, 154, 53, 0.16);
+  --err: #ea574c;
+  --err-soft: rgba(234, 87, 76, 0.16);
+
+  --code-text: #e8e8ea;
+  --code-doc: #6a6a73;
+  --code-number: #ff7eb6;
+  --code-parameter: #7dd87d;
+
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.3);
+  --shadow-md: 0 4px 16px rgba(0, 0, 0, 0.4);
+  --shadow-lg: 0 12px 40px rgba(0, 0, 0, 0.5);
+}

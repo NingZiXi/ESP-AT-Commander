@@ -1,0 +1,42 @@
+# Dependencies
+node_modules/
+
+# Build output
+frontend/dist/
+src-tauri/target/
+
+# Tauri
+src-tauri/gen/
+
+# Design reference (Trae IDE 下载的设计资源,不属于应用代码)
+esp-at-commander-redesign/
+.design
+
+# Trae IDE 运行时缓存
+.uploads/
+tools/
+
+# Environment
+.env
+.env.local
+.env.*.local
+
+# Logs
+*.log
+logs/
+pnpm-debug.log*
+npm-debug.log*
+
+# OS
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Editor
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# Trae IDE
+.trae/

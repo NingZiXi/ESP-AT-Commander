@@ -1,0 +1,58 @@
+{
+  "version": 2,
+  "rules": [
+    { "pattern": "^OK\\r?$", "type": "ok" },
+    { "pattern": "^ERROR\\r?$", "type": "error" },
+    { "pattern": "^SEND OK\\r?$", "type": "ok" },
+    { "pattern": "^SEND FAIL\\r?$", "type": "error" },
+    { "pattern": "^FAIL$", "type": "error" },
+    { "pattern": "^busy", "type": "warning" },
+    { "pattern": "^ready\\r?$", "type": "event" },
+    { "pattern": "^WIFI CONNECTED", "type": "event" },
+    { "pattern": "^WIFI GOT IP", "type": "event" },
+    { "pattern": "^WIFI GOT IPv6", "type": "event" },
+    { "pattern": "^WIFI DISCONNECT", "type": "warning" },
+    { "pattern": "^\\+CWJAP:", "type": "error" },
+
+    { "pattern": "^\\+CWLAP:", "type": "event" },
+    { "pattern": "^\\+CWSTATE:", "type": "event" },
+    { "pattern": "^\\+CWSAP:", "type": "event" },
+    { "pattern": "^\\+CIPSTAMAC:", "type": "event" },
+    { "pattern": "^\\+CIPAPMAC:", "type": "event" },
+    { "pattern": "^\\+CIPSTA:", "type": "event" },
+    { "pattern": "^\\+CIPAP:", "type": "event" },
+    { "pattern": "^\\+CWHOSTNAME:", "type": "event" },
+
+    { "pattern": "^\\+IPD,", "type": "event" },
+    { "pattern": "^\\+CIPSTATUS:", "type": "event" },
+    { "pattern": "^\\+CIPDOMAIN:", "type": "event" },
+    { "pattern": "^\\+CIFSR:", "type": "event" },
+    { "pattern": "^\\+CIPRECVDATA:", "type": "event" },
+    { "pattern": "^\\+CIPRECVLEN:", "type": "event" },
+    { "pattern": "^\\+CIPSNTPTIME:", "type": "event" },
+    { "pattern": "^\\+CIPDNS:", "type": "event" },
+    { "pattern": "^\\+CIPSNTPCFG:", "type": "event" },
+    { "pattern": "^,CONNECT$", "type": "event" },
+    { "pattern": "^,CLOSED$", "type": "warning" },
+
+    { "pattern": "^\\+MQTTCONNECTED", "type": "event" },
+    { "pattern": "^\\+MQTTDISCONNECTED", "type": "warning" },
+    { "pattern": "^\\+MQTTSUBRECV", "type": "event" },
+    { "pattern": "^\\+MQTTPUB:", "type": "event" },
+
+    { "pattern": "^\\+HTTPCLIENT:", "type": "event" },
+    { "pattern": "^\\+HTTPGETSIZE:", "type": "event" },
+    { "pattern": "^\\+HTTPURLCFG:", "type": "event" },
+
+    { "pattern": "^\\+BLE", "type": "event" },
+
+    { "pattern": "^\\+SYSRAM:", "type": "event" },
+    { "pattern": "^\\+SYSMSG:", "type": "event" },
+    { "pattern": "^\\+GMR:", "type": "event" },
+    { "pattern": "^\\+CMD:", "type": "event" },
+    { "pattern": "^\\+RFPOWER:", "type": "event" },
+    { "pattern": "^\\+SYSTIMESTAMP:", "type": "event" },
+
+    { "pattern": "^\\+[A-Z]", "type": "event" }
+  ]
+}

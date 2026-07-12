@@ -1,0 +1,11 @@
+name: 未命名脚本
+description: ''
+steps:
+- send: AT
+  wait: OK
+  delay: null
+  timeout: 5000
+- send: AT+RST
+  wait: OK
+  delay: null
+  timeout: 5000

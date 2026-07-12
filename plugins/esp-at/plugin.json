@@ -1,0 +1,9 @@
+{
+  "id": "esp-at",
+  "displayName": "ESP-AT",
+  "vendor": "Espressif",
+  "version": "3.x",
+  "description": "ESP32 / ESP8266 AT 指令集",
+  "commandsFile": "commands.json",
+  "parserFile": "parser.json"
+}
