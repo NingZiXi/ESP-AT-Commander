@@ -9,14 +9,18 @@
 
 [简体中文](README.md) · [📝 更新日志](https://github.com/NingZiXi/ESP-AT-Commander/releases) · [🐛 反馈问题](https://github.com/NingZiXi/ESP-AT-Commander/issues) · [👤 作者主页](https://github.com/NingZiXi)
 
----
-
 [![License: MIT](https://img.shields.io/badge/License-MIT-7c3aed.svg)](LICENSE)
 [![Tauri 2](https://img.shields.io/badge/Tauri-2.x-24C8DB.svg)](https://tauri.app)
 [![React 19](https://img.shields.io/badge/React-19-61DAFB.svg)](https://react.dev)
 [![Rust 2021](https://img.shields.io/badge/Rust-2021-DEA584.svg)](https://www.rust-lang.org)
 [![Platform](https://img.shields.io/badge/Platform-Windows%20%7C%20macOS%20%7C%20Linux-7c3aed)](#-快速开始)
 [![GitHub release](https://img.shields.io/github/v/release/NingZiXi/ESP-AT-Commander?color=7c3aed)](https://github.com/NingZiXi/ESP-AT-Commander/releases)
+
+### ⬇️ 直接下载
+
+[![Windows](https://img.shields.io/badge/Windows-0078D4?style=flat-square&logo=windows&logoColor=white)](https://github.com/NingZiXi/ESP-AT-Commander/releases/latest/download/ESP-AT.Commander_0.1.0_x64-setup.exe)
+[![macOS](https://img.shields.io/badge/macOS-222222?style=flat-square&logo=apple&logoColor=white)](https://github.com/NingZiXi/ESP-AT-Commander/releases/latest/download/ESP-AT.Commander_0.1.0_aarch64.dmg)
+[![Linux](https://img.shields.io/badge/Linux-FCC624?style=flat-square&logo=linux&logoColor=black)](https://github.com/NingZiXi/ESP-AT-Commander/releases/latest/download/ESP-AT.Commander_0.1.0_amd64.AppImage)
 
 </div>
 
@@ -39,18 +43,6 @@
 ## 📸 截图
 
 ![主界面](./docs/screenshots/main.png)
-
-## ⬇️ 直接下载
-
-无需编译，开箱即用：
-
-| 平台 | 下载 |
-| --- | --- |
-| **Windows** | [ESP-AT.Commander_0.1.0_x64-setup.exe](https://github.com/NingZiXi/ESP-AT-Commander/releases/latest/download/ESP-AT.Commander_0.1.0_x64-setup.exe) |
-| **macOS** | [ESP-AT.Commander_0.1.0_aarch64.dmg](https://github.com/NingZiXi/ESP-AT-Commander/releases/latest/download/ESP-AT.Commander_0.1.0_aarch64.dmg) |
-| **Linux** | [ESP-AT.Commander_0.1.0_amd64.AppImage](https://github.com/NingZiXi/ESP-AT-Commander/releases/latest/download/ESP-AT.Commander_0.1.0_amd64.AppImage) |
-
-> 所有平台版本：https://github.com/NingZiXi/ESP-AT-Commander/releases/latest
 
 ## 🛠️ 快速开始
 
