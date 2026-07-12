@@ -36,7 +36,7 @@
       "icons/icon.ico"
     ],
     "resources": {
-      "../plugins/esp-at/*": "plugins/esp-at/"
+      "../plugins/esp-at/**": "plugins/esp-at/"
     },
     "windows": {
       "nsis": {
