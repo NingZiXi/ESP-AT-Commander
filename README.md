@@ -38,7 +38,7 @@
 
 ## 📸 截图
 
-> 实际截图将在 v0.2.0 加入。你也可以本地运行 `pnpm tauri:dev` 自行截取后,把图片放到 `docs/screenshots/`,然后在此处用相对路径引用。
+![主界面](./docs/screenshots/main.png)
 
 ## 🛠️ 快速开始
 

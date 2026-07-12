@@ -2,6 +2,7 @@ import { useCallback, useEffect, useState } from "react";
 import { invoke } from "@tauri-apps/api/core";
 import { useSerialStore, type DataBits, type StopBits, type Parity } from "../stores/serial";
 import { useThemeStore } from "../stores/theme";
+import { useSettingsStore } from "../stores/settings";
 
 interface PortInfo {
   name: string;
@@ -27,7 +28,8 @@ export function SerialBar({ onScriptToggle, scriptActive, onOpenSettings }: Prop
     error, setStatus, setPort, setBaud, setDataBits, setStopBits, setParity,
     setError, setConnectedAt,
   } = useSerialStore();
-  const { theme, toggle: toggleTheme } = useThemeStore();
+  const { theme, set: setTheme } = useThemeStore();
+  const setThemeMode = useSettingsStore((s) => s.setThemeMode);
   const [ports, setPorts] = useState<PortInfo[]>([]);
   const [loadingPorts, setLoadingPorts] = useState(false);
 
@@ -195,7 +197,12 @@ export function SerialBar({ onScriptToggle, scriptActive, onOpenSettings }: Prop
         )}
         <button
           className="tool-btn"
-          onClick={toggleTheme}
+          onClick={() => {
+            // 顶栏切换：同时更新 useThemeStore(立即应用 CSS)和 useSettingsStore(持久化偏好)
+            const next: "light" | "dark" = theme === "dark" ? "light" : "dark";
+            setTheme(next);
+            setThemeMode(next);
+          }}
           title={theme === "dark" ? "切换到浅色主题" : "切换到深色主题"}
         >
           <span className="tool-icon">{theme === "dark" ? "☀" : "☾"}</span>

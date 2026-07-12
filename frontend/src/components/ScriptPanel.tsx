@@ -93,6 +93,8 @@ export function ScriptPanel() {
   const dragStateRef = useRef({ startIdx: -1, currentIdx: -1 });
   // 拖拽幻影鼠标坐标
   const [phantomPos, setPhantomPos] = useState<{ x: number; y: number } | null>(null);
+  // 步骤操作菜单(收起 5 个按钮为一个 ⋯ 按钮)
+  const [menuOpenIdx, setMenuOpenIdx] = useState<number | null>(null);
   // 步骤模板
   const [templates, setTemplates] = useState<StepTemplate[]>(() => {
     try {
@@ -599,6 +601,23 @@ export function ScriptPanel() {
     });
   }, [script?.steps.length]);
 
+  // 点击其他地方关闭步骤操作菜单
+  useEffect(() => {
+    if (menuOpenIdx === null) return;
+    const close = (e: MouseEvent) => {
+      const target = e.target as HTMLElement;
+      if (!target.closest(".sp-step-menu") && !target.closest(".sp-step-menu-trigger")) {
+        setMenuOpenIdx(null);
+      }
+    };
+    // 下一帧再挂载,避免立即触发自身点击
+    const timer = setTimeout(() => document.addEventListener("mousedown", close), 0);
+    return () => {
+      clearTimeout(timer);
+      document.removeEventListener("mousedown", close);
+    };
+  }, [menuOpenIdx]);
+
   const handleOpenFile = async () => {
     setError(null);
     try {
@@ -956,47 +975,60 @@ export function ScriptPanel() {
                             </div>
                           </div>
                         )}
-                        <div className="sp-step-actions">
+                        <div className={`sp-step-actions ${menuOpenIdx === i ? "is-open" : ""}`}>
                           <button
-                            className="btn btn-ghost btn-icon btn-sm"
-                            onClick={() => handleMoveStep(i, -1)}
-                            disabled={running || i === 0}
-                            title="上移"
-                          >
-                            ↑
-                          </button>
-                          <button
-                            className="btn btn-ghost btn-icon btn-sm"
-                            onClick={() => handleMoveStep(i, 1)}
-                            disabled={running || i === script.steps.length - 1}
-                            title="下移"
-                          >
-                            ↓
-                          </button>
-                          <button
-                            className="btn btn-ghost btn-icon btn-sm"
-                            onClick={() => handleCopyStep(step)}
+                            className="btn btn-ghost btn-icon btn-sm sp-step-menu-trigger"
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              setMenuOpenIdx(menuOpenIdx === i ? null : i);
+                            }}
                             disabled={running}
-                            title="复制步骤"
+                            title="更多操作"
+                            aria-label="更多操作"
                           >
-                            📋
+                            ⋯
                           </button>
-                          <button
-                            className="btn btn-ghost btn-icon btn-sm"
-                            onClick={() => handlePaste(i + 1)}
-                            disabled={running || clipboard.length === 0}
-                            title="粘贴到下方"
-                          >
-                            📄
-                          </button>
-                          <button
-                            className="btn btn-ghost btn-icon btn-sm btn-danger-hover"
-                            onClick={() => handleRemoveStep(i)}
-                            disabled={running}
-                            title="删除步骤"
-                          >
-                            <Trash size={12} />
-                          </button>
+                          {menuOpenIdx === i && (
+                            <div className="sp-step-menu" onClick={(e) => e.stopPropagation()}>
+                              <button
+                                className="sp-step-menu-item"
+                                onClick={() => { handleMoveStep(i, -1); setMenuOpenIdx(null); }}
+                                disabled={running || i === 0}
+                              >
+                                <span className="sp-step-menu-icon">↑</span>上移
+                              </button>
+                              <button
+                                className="sp-step-menu-item"
+                                onClick={() => { handleMoveStep(i, 1); setMenuOpenIdx(null); }}
+                                disabled={running || i === script.steps.length - 1}
+                              >
+                                <span className="sp-step-menu-icon">↓</span>下移
+                              </button>
+                              <div className="sp-step-menu-divider" />
+                              <button
+                                className="sp-step-menu-item"
+                                onClick={() => { handleCopyStep(step); setMenuOpenIdx(null); }}
+                                disabled={running}
+                              >
+                                <span className="sp-step-menu-icon">📋</span>复制步骤
+                              </button>
+                              <button
+                                className="sp-step-menu-item"
+                                onClick={() => { handlePaste(i + 1); setMenuOpenIdx(null); }}
+                                disabled={running || clipboard.length === 0}
+                              >
+                                <span className="sp-step-menu-icon">📄</span>粘贴到下方
+                              </button>
+                              <div className="sp-step-menu-divider" />
+                              <button
+                                className="sp-step-menu-item sp-step-menu-item--danger"
+                                onClick={() => { handleRemoveStep(i); setMenuOpenIdx(null); }}
+                                disabled={running}
+                              >
+                                <span className="sp-step-menu-icon">🗑</span>删除
+                              </button>
+                            </div>
+                          )}
                         </div>
                       </div>
                     </div>

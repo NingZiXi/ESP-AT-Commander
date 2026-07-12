@@ -115,6 +115,42 @@ impl Parity {
     }
 }
 
+/// 把前端发来的 u8 数据位转换成内部枚举(非法值回退到 8)
+fn data_bits_to_enum(v: u8) -> DataBits {
+    match v {
+        5 => DataBits::Five,
+        6 => DataBits::Six,
+        7 => DataBits::Seven,
+        _ => DataBits::Eight,
+    }
+}
+
+/// 把前端发来的 u8 停止位转换成内部枚举(非法值回退到 1)
+fn stop_bits_to_enum(v: u8) -> StopBits {
+    match v {
+        2 => StopBits::Two,
+        _ => StopBits::One,
+    }
+}
+
+/// 把前端发来的字符串校验位转换成内部枚举
+fn parity_to_enum(s: &str) -> Parity {
+    match s {
+        "Odd" => Parity::Odd,
+        "Even" => Parity::Even,
+        _ => Parity::None,
+    }
+}
+
+/// 把字符串校验位转成 u8(用于持久化,0=None / 1=Odd / 2=Even)
+fn parity_to_u8(s: &str) -> u8 {
+    match s {
+        "Odd" => 1,
+        "Even" => 2,
+        _ => 0,
+    }
+}
+
 /// 枚举系统可用的串口列表
 #[tauri::command]
 fn list_ports() -> Result<Vec<PortInfo>, String> {
@@ -144,13 +180,13 @@ fn connect_port(
     baud_rate: u32,
     state: tauri::State<AppState>,
     app: AppHandle,
-    data_bits: Option<DataBits>,
-    stop_bits: Option<StopBits>,
-    parity: Option<Parity>,
+    data_bits: Option<u8>,
+    stop_bits: Option<u8>,
+    parity: Option<String>,
 ) -> Result<(), String> {
-    let db = data_bits.unwrap_or(DataBits::Eight);
-    let sb = stop_bits.unwrap_or(StopBits::One);
-    let pa = parity.unwrap_or(Parity::None);
+    let db = data_bits_to_enum(data_bits.unwrap_or(8));
+    let sb = stop_bits_to_enum(stop_bits.unwrap_or(1));
+    let pa = parity_to_enum(parity.as_deref().unwrap_or("None"));
 
     let writer = serialport::new(&port, baud_rate)
         .timeout(Duration::from_millis(100))
@@ -164,12 +200,16 @@ fn connect_port(
         .try_clone()
         .map_err(|e| format!("克隆串口句柄失败: {}", e))?;
 
-    // 保存重连参数
+    // 持久化用原始 u8/String 存储
+    let data_bits_raw = data_bits.unwrap_or(8);
+    let stop_bits_raw = stop_bits.unwrap_or(1);
+    let parity_str = parity.unwrap_or_else(|| "None".into());
+
     if let Ok(mut p) = state.last_port.lock() { *p = Some(port.clone()); }
     if let Ok(mut b) = state.last_baud.lock() { *b = Some(baud_rate); }
-    if let Ok(mut d) = state.last_data_bits.lock() { *d = Some(db as u8); }
-    if let Ok(mut s) = state.last_stop_bits.lock() { *s = Some(sb as u8); }
-    if let Ok(mut pa_lock) = state.last_parity.lock() { *pa_lock = Some(pa as u8); }
+    if let Ok(mut d) = state.last_data_bits.lock() { *d = Some(data_bits_raw); }
+    if let Ok(mut s) = state.last_stop_bits.lock() { *s = Some(stop_bits_raw); }
+    if let Ok(mut pa_lock) = state.last_parity.lock() { *pa_lock = Some(parity_to_u8(&parity_str)); }
 
     // 新连接：清空 RX buffer（旧数据对本次连接无意义）
     if let Ok(mut rx) = state.rx_buffer.lock() {
@@ -183,9 +223,6 @@ fn connect_port(
     let app_for_thread = app.clone();
     let port_clone = port.clone();
     let baud_clone = baud_rate;
-    let db_clone = db;
-    let sb_clone = sb;
-    let pa_clone = pa;
 
     let handle = thread::spawn(move || {
         let mut buf = [0u8; 1024];
@@ -213,7 +250,7 @@ fn connect_port(
         // 读取线程退出 — 判断是否为意外断开
         if running.load(Ordering::SeqCst) {
             // 仍然是 running 状态 = 意外断开，尝试自动重连
-            auto_reconnect(&app_for_thread, &port_clone, baud_clone, db_clone, sb_clone, pa_clone, &running);
+            auto_reconnect(&app_for_thread, &port_clone, baud_clone, data_bits_raw, stop_bits_raw, &parity_str, &running);
         } else {
             // 用户主动断开 = 通知前端
             let _ = app_for_thread.emit("serial://disconnected", ());
@@ -232,12 +269,15 @@ fn auto_reconnect(
     app: &AppHandle,
     port: &str,
     baud: u32,
-    data_bits: DataBits,
-    stop_bits: StopBits,
-    parity: Parity,
+    data_bits: u8,
+    stop_bits: u8,
+    parity: &str,
     running: &Arc<AtomicBool>,
 ) {
     let _ = app.emit("serial://disconnected", format!("串口 {} 已断开，正在尝试重连…", port));
+
+    // 提前把 &str 转成 owned String，方便 move 进 thread
+    let parity_str = parity.to_string();
 
     for attempt in 1..=5 {
         if !running.load(Ordering::SeqCst) {
@@ -248,9 +288,9 @@ fn auto_reconnect(
 
         match serialport::new(port, baud)
             .timeout(Duration::from_millis(100))
-            .data_bits(data_bits.to_serial())
-            .stop_bits(stop_bits.to_serial())
-            .parity(parity.to_serial())
+            .data_bits(data_bits_to_enum(data_bits).to_serial())
+            .stop_bits(stop_bits_to_enum(stop_bits).to_serial())
+            .parity(parity_to_enum(&parity_str).to_serial())
             .open()
         {
             Ok(writer) => {
@@ -272,7 +312,7 @@ fn auto_reconnect(
                 let baud_copy = baud;
                 let db_copy = data_bits;
                 let sb_copy = stop_bits;
-                let pa_copy = parity;
+                let pa_copy = parity_str.clone();
 
                 let handle = thread::spawn(move || {
                     let mut reader = reader;
@@ -297,7 +337,7 @@ fn auto_reconnect(
                         }
                     }
                     if running_clone.load(Ordering::SeqCst) {
-                        auto_reconnect(&app_clone, &port_owned, baud_copy, db_copy, sb_copy, pa_copy, &running_clone);
+                        auto_reconnect(&app_clone, &port_owned, baud_copy, db_copy, sb_copy, &pa_copy, &running_clone);
                     } else {
                         let _ = app_clone.emit("serial://disconnected", ());
                     }

@@ -1856,9 +1856,15 @@ body {
   flex: 1;
   min-width: 0;
 }
+.sp-step-delay-row .sp-inline-input {
+  flex: 1;
+  min-width: 60px;
+  max-width: 120px;
+}
 
 /* 步骤操作按钮 */
 .sp-step-actions {
+  position: relative;
   display: flex;
   align-items: center;
   gap: 2px;
@@ -1866,8 +1872,78 @@ body {
   opacity: 0;
   transition: opacity var(--t-fast);
 }
-.sp-step:hover .sp-step-actions {
+.sp-step:hover .sp-step-actions,
+.sp-step-actions.is-open {
   opacity: 1;
+}
+.sp-step-menu-trigger {
+  font-size: 16px;
+  line-height: 1;
+  letter-spacing: 1px;
+  padding: 0 6px;
+}
+
+/* 步骤操作下拉菜单 */
+.sp-step-menu {
+  position: absolute;
+  right: 0;
+  top: calc(100% + 4px);
+  min-width: 140px;
+  background: var(--surface-2, var(--bg-elevated));
+  border: 1px solid var(--border);
+  border-radius: var(--radius-6, 6px);
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.25);
+  padding: 4px;
+  z-index: 50;
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+  animation: sp-menu-in 0.12s ease-out;
+}
+@keyframes sp-menu-in {
+  from { opacity: 0; transform: translateY(-4px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.sp-step-menu-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 10px;
+  background: transparent;
+  border: none;
+  border-radius: var(--radius-4, 4px);
+  color: var(--text);
+  font-size: var(--text-sm);
+  font-family: inherit;
+  text-align: left;
+  cursor: pointer;
+  transition: background var(--t-fast);
+  white-space: nowrap;
+}
+.sp-step-menu-item:hover:not(:disabled) {
+  background: var(--overlay-1, rgba(255, 255, 255, 0.06));
+}
+.sp-step-menu-item:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+.sp-step-menu-item--danger {
+  color: var(--err);
+}
+.sp-step-menu-item--danger:hover:not(:disabled) {
+  background: color-mix(in srgb, var(--err) 12%, transparent);
+}
+.sp-step-menu-icon {
+  display: inline-flex;
+  width: 16px;
+  justify-content: center;
+  font-size: 13px;
+  line-height: 1;
+}
+.sp-step-menu-divider {
+  height: 1px;
+  background: var(--border);
+  margin: 3px 4px;
 }
 
 /* 标题编辑 */
