@@ -7,7 +7,7 @@
     "frontendDist": "../frontend/dist",
     "devUrl": "http://localhost:5173",
     "beforeDevCommand": "pnpm --dir frontend dev",
-    "beforeBuildCommand": "pnpm --dir frontend build"
+    "beforeBuildCommand": "cd frontend && npx tsc -b && npx vite build"
   },
   "app": {
     "windows": [
