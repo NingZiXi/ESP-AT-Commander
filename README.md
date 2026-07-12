@@ -1,6 +1,6 @@
 <div align="center">
 
-<img src="./docs/banner.svg" alt="ESP-AT Commander Banner" width="100%" />
+![ESP-AT Commander Banner](./docs/banner.png)
 
 # 📡 ESP-AT Commander
 
@@ -38,7 +38,7 @@
 
 ## 📸 截图
 
-![ESP-AT Commander Banner](./docs/banner.png)
+![主界面](./docs/screenshots/main.png)
 
 ## 🛠️ 快速开始
 
