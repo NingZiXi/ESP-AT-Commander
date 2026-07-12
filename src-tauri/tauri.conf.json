@@ -36,7 +36,10 @@
       "icons/icon.ico"
     ],
     "resources": {
-      "../plugins/esp-at/**": "plugins/esp-at/"
+      "../plugins/esp-at/commands.json": "plugins/esp-at/commands.json",
+      "../plugins/esp-at/parser.json": "plugins/esp-at/parser.json",
+      "../plugins/esp-at/plugin.json": "plugins/esp-at/plugin.json",
+      "../plugins/esp-at/scripts": "plugins/esp-at/scripts"
     },
     "windows": {
       "nsis": {
