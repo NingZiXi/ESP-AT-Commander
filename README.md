@@ -40,6 +40,18 @@
 
 ![主界面](./docs/screenshots/main.png)
 
+## ⬇️ 直接下载
+
+无需编译，开箱即用：
+
+| 平台 | 下载 |
+| --- | --- |
+| **Windows** | [ESP-AT.Commander_0.1.0_x64-setup.exe](https://github.com/NingZiXi/ESP-AT-Commander/releases/latest/download/ESP-AT.Commander_0.1.0_x64-setup.exe) |
+| **macOS** | [ESP-AT.Commander_0.1.0_aarch64.dmg](https://github.com/NingZiXi/ESP-AT-Commander/releases/latest/download/ESP-AT.Commander_0.1.0_aarch64.dmg) |
+| **Linux** | [ESP-AT.Commander_0.1.0_amd64.AppImage](https://github.com/NingZiXi/ESP-AT-Commander/releases/latest/download/ESP-AT.Commander_0.1.0_amd64.AppImage) |
+
+> 所有平台版本：https://github.com/NingZiXi/ESP-AT-Commander/releases/latest
+
 ## 🛠️ 快速开始
 
 ### 1️⃣ 环境要求
