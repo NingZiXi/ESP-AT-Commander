@@ -42,6 +42,12 @@ jobs:
       - name: Install frontend dependencies
         run: cd frontend && pnpm install
 
+      - name: Install Linux system dependencies
+        if: matrix.platform == 'linux'
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y libgtk-3-0 libgtk-3-dev libayatana-appindicator3-dev libwebkit2gtk-4.1-dev
+
       - name: Build Tauri app
         uses: tauri-apps/tauri-action@v0
         env:
