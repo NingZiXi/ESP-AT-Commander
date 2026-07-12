@@ -1,6 +1,6 @@
 <div align="center">
 
-<img src="https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=ESP-AT%20Commander%20banner%2C%20dark%20purple%20gradient%20background%2C%20minimalist%20flat%20design%2C%20central%20%22AT%22%20text%20in%20white%20with%20subtle%20glow%2C%20thin%20horizontal%20circuit%20board%20lines%20extending%20from%20center%2C%20serial%20port%20icon%20in%20background%2C%20no%20people%2C%20no%20cartoon%2C%20flat%20geometric%20lines%2C%20modern%20tech%20aesthetic&image_size=landscape_16_9" alt="ESP-AT Commander Banner" width="100%" />
+<img src="./docs/banner.svg" alt="ESP-AT Commander Banner" width="100%" />
 
 # 📡 ESP-AT Commander
 
@@ -38,11 +38,7 @@
 
 ## 📸 截图
 
-> 截图占位 —— 启动应用后截图,放到 `docs/screenshots/` 下,把链接替换进来。
-
-| 主界面 | 设置中心 |
-| --- | --- |
-| ![主界面](https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=ESP-AT%20Commander%20desktop%20app%20main%20UI%2C%20dark%20theme%2C%20purple%20accent%2C%20left%20command%20tree%2C%20center%20terminal%2C%20right%20script%20panel%2C%20minimalist%20flat%20design&image_size=landscape_16_9) | ![设置](https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=ESP-AT%20Commander%20settings%20modal%2C%20sidebar%20navigation%2C%20about%20and%20shortcuts%20sections%2C%20purple%20accent%2C%20minimalist&image_size=landscape_4_3) |
+> 实际截图将在 v0.2.0 加入。你也可以本地运行 `pnpm tauri:dev` 自行截取后,把图片放到 `docs/screenshots/`,然后在此处用相对路径引用。
 
 ## 🛠️ 快速开始
 
