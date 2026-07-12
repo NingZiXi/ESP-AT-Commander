@@ -1,53 +1,187 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1280 320" width="1280" height="320">
   <defs>
+    <!-- 背景渐变:柔和粉紫 -->
     <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" stop-color="#7c3aed"/>
-      <stop offset="50%" stop-color="#5b21b6"/>
-      <stop offset="100%" stop-color="#312e81"/>
+      <stop offset="0%" stop-color="#e9d5ff"/>
+      <stop offset="35%" stop-color="#c4b5fd"/>
+      <stop offset="65%" stop-color="#a78bfa"/>
+      <stop offset="100%" stop-color="#7c3aed"/>
     </linearGradient>
-    <linearGradient id="shine" x1="0%" y1="0%" x2="0%" y2="100%">
-      <stop offset="0%" stop-color="#ffffff" stop-opacity="0.18"/>
+
+    <!-- 渐变遮罩:上方柔光 -->
+    <linearGradient id="topShine" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#ffffff" stop-opacity="0.35"/>
+      <stop offset="60%" stop-color="#ffffff" stop-opacity="0.05"/>
       <stop offset="100%" stop-color="#ffffff" stop-opacity="0"/>
     </linearGradient>
-    <radialGradient id="glow" cx="80%" cy="20%" r="60%">
-      <stop offset="0%" stop-color="#a78bfa" stop-opacity="0.4"/>
+
+    <!-- 渐变遮罩:下方暗角 -->
+    <linearGradient id="bottomShade" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#ffffff" stop-opacity="0"/>
+      <stop offset="100%" stop-color="#4c1d95" stop-opacity="0.2"/>
+    </linearGradient>
+
+    <!-- chip 身体渐变 -->
+    <linearGradient id="chipBody" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#fef9c3"/>
+      <stop offset="100%" stop-color="#fde68a"/>
+    </linearGradient>
+
+    <!-- chip 盖子渐变 -->
+    <linearGradient id="chipTop" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#92400e"/>
+      <stop offset="100%" stop-color="#78350f"/>
+    </linearGradient>
+
+    <!-- 眼睛高光 -->
+    <radialGradient id="eyeShine" cx="35%" cy="30%" r="60%">
+      <stop offset="0%" stop-color="#ffffff"/>
       <stop offset="100%" stop-color="#a78bfa" stop-opacity="0"/>
     </radialGradient>
+
+    <!-- 腮红渐变 -->
+    <radialGradient id="blush" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#f472b6" stop-opacity="0.5"/>
+      <stop offset="100%" stop-color="#f472b6" stop-opacity="0"/>
+    </radialGradient>
+
+    <!-- 星星发光 -->
+    <filter id="glow">
+      <feGaussianBlur stdDeviation="3" result="coloredBlur"/>
+      <feMerge>
+        <feMergeNode in="coloredBlur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+
+    <!-- 软阴影 -->
+    <filter id="softShadow">
+      <feDropShadow dx="0" dy="4" stdDeviation="6" flood-color="#7c3aed" flood-opacity="0.3"/>
+    </filter>
   </defs>
 
-  <!-- 背景渐变 -->
+  <!-- ===== 背景 ===== -->
   <rect width="1280" height="320" fill="url(#bg)"/>
-  <rect width="1280" height="320" fill="url(#glow)"/>
-  <rect width="1280" height="160" fill="url(#shine)"/>
+  <rect width="1280" height="320" fill="url(#topShine)"/>
+  <rect width="1280" height="320" fill="url(#bottomShade)"/>
 
-  <!-- 左下装饰电路 -->
-  <g stroke="#ffffff" stroke-opacity="0.22" stroke-width="1.5" fill="none" stroke-linecap="round">
-    <line x1="60" y1="60" x2="180" y2="60"/>
-    <line x1="180" y1="60" x2="180" y2="120"/>
-    <line x1="60" y1="260" x2="140" y2="260"/>
-    <line x1="140" y1="260" x2="140" y2="200"/>
-    <circle cx="60" cy="60" r="3.5" fill="#ffffff" fill-opacity="0.4" stroke="none"/>
-    <circle cx="180" cy="120" r="3.5" fill="#ffffff" fill-opacity="0.4" stroke="none"/>
-    <circle cx="140" cy="200" r="3.5" fill="#ffffff" fill-opacity="0.4" stroke="none"/>
+  <!-- ===== 背景装饰:软云团 ===== -->
+  <ellipse cx="100" cy="60" rx="70" ry="40" fill="#ffffff" fill-opacity="0.15"/>
+  <ellipse cx="60" cy="80" rx="45" ry="28" fill="#ffffff" fill-opacity="0.12"/>
+  <ellipse cx="1200" cy="50" rx="60" ry="35" fill="#ffffff" fill-opacity="0.15"/>
+  <ellipse cx="1160" cy="75" rx="40" ry="25" fill="#ffffff" fill-opacity="0.12"/>
+  <ellipse cx="1180" cy="280" rx="80" ry="35" fill="#ffffff" fill-opacity="0.1"/>
+  <ellipse cx="60" cy="270" rx="55" ry="30" fill="#ffffff" fill-opacity="0.1"/>
+
+  <!-- ===== 背景装饰:星星 ===== -->
+  <g filter="url(#glow)">
+    <polygon points="180,40 183,48 192,48 185,54 188,62 180,57 172,62 175,54 168,48 177,48"
+             fill="#fef08a" fill-opacity="0.8"/>
+    <polygon points="1100,55 1102.5,61 1110,61 1104,66 1106.5,72 1100,68 1093.5,72 1096,66 1090,61 1097.5,61"
+             fill="#fef08a" fill-opacity="0.7" transform="scale(0.7) translate(500,20)"/>
+    <polygon points="640,30 642,35 648,35 643,39 645,44 640,41 635,44 637,39 632,35 638,35"
+             fill="#fde68a" fill-opacity="0.6" transform="scale(0.6) translate(450,5)"/>
   </g>
 
-  <!-- 右下装饰电路 -->
-  <g stroke="#ffffff" stroke-opacity="0.22" stroke-width="1.5" fill="none" stroke-linecap="round">
-    <line x1="1100" y1="260" x2="1220" y2="260"/>
-    <line x1="1100" y1="260" x2="1100" y2="200"/>
-    <line x1="1140" y1="60" x2="1220" y2="60"/>
-    <circle cx="1220" cy="260" r="3.5" fill="#ffffff" fill-opacity="0.4" stroke="none"/>
-    <circle cx="1100" cy="200" r="3.5" fill="#ffffff" fill-opacity="0.4" stroke="none"/>
-    <circle cx="1140" cy="60" r="3.5" fill="#ffffff" fill-opacity="0.4" stroke="none"/>
-  </g>
+  <!-- 小圆点装饰 -->
+  <circle cx="220" cy="80" r="4" fill="#fde68a" fill-opacity="0.6"/>
+  <circle cx="240" cy="60" r="3" fill="#f9a8d4" fill-opacity="0.7"/>
+  <circle cx="1060" cy="90" r="4" fill="#fde68a" fill-opacity="0.6"/>
+  <circle cx="1080" cy="70" r="3" fill="#f9a8d4" fill-opacity="0.7"/>
+  <circle cx="320" cy="260" r="5" fill="#c4b5fd" fill-opacity="0.5"/>
+  <circle cx="960" cy="250" r="4" fill="#fde68a" fill-opacity="0.5"/>
+
+  <!-- ===== 左侧吉祥物:Cute Chip ===== -->
+  <!-- Chip 身体 -->
+  <rect x="160" y="130" width="100" height="90" rx="14" fill="url(#chipBody)"
+        stroke="#f59e0b" stroke-width="2.5" filter="url(#softShadow)"/>
+  <!-- Chip 引脚槽 -->
+  <rect x="155" y="143" width="110" height="64" rx="8" fill="url(#chipTop)"/>
+  <!-- 引脚(左) -->
+  <rect x="148" y="152" width="12" height="8" rx="4" fill="#d1d5db"/>
+  <rect x="148" y="168" width="12" height="8" rx="4" fill="#d1d5db"/>
+  <rect x="148" y="184" width="12" height="8" rx="4" fill="#d1d5db"/>
+  <rect x="148" y="200" width="12" height="8" rx="4" fill="#d1d5db"/>
+  <!-- 引脚(右) -->
+  <rect x="260" y="152" width="12" height="8" rx="4" fill="#d1d5db"/>
+  <rect x="260" y="168" width="12" height="8" rx="4" fill="#d1d5db"/>
+  <rect x="260" y="184" width="12" height="8" rx="4" fill="#d1d5db"/>
+  <rect x="260" y="200" width="12" height="8" rx="4" fill="#d1d5db"/>
+  <!-- 天线 -->
+  <line x1="210" y1="130" x2="210" y2="110" stroke="#f59e0b" stroke-width="3" stroke-linecap="round"/>
+  <circle cx="210" cy="106" r="6" fill="#f472b6" stroke="#f9a8d4" stroke-width="1.5"/>
+  <circle cx="210" cy="106" r="2.5" fill="#ffffff" fill-opacity="0.8"/>
+  <!-- 左手 -->
+  <ellipse cx="155" cy="178" rx="10" ry="8" fill="#fef9c3" stroke="#f59e0b" stroke-width="1.5" transform="rotate(-20,155,178)"/>
+  <!-- 右手 -->
+  <ellipse cx="265" cy="178" rx="10" ry="8" fill="#fef9c3" stroke="#f59e0b" stroke-width="1.5" transform="rotate(20,265,178)"/>
+  <!-- 左脚 -->
+  <ellipse cx="188" cy="222" rx="11" ry="8" fill="#fef9c3" stroke="#f59e0b" stroke-width="1.5"/>
+  <!-- 右脚 -->
+  <ellipse cx="232" cy="222" rx="11" ry="8" fill="#fef9c3" stroke="#f59e0b" stroke-width="1.5"/>
+
+  <!-- 腮红(左) -->
+  <ellipse cx="168" cy="190" rx="12" ry="7" fill="url(#blush)"/>
+  <!-- 腮红(右) -->
+  <ellipse cx="252" cy="190" rx="12" ry="7" fill="url(#blush)"/>
+
+  <!-- 眼睛(左) - 动漫大眼 -->
+  <ellipse cx="192" cy="177" rx="13" ry="15" fill="#1e1b4b"/>
+  <ellipse cx="192" cy="177" rx="13" ry="15" fill="url(#eyeShine)"/>
+  <ellipse cx="192" cy="175" rx="8" ry="9" fill="#2e1065"/>
+  <!-- 眼睛高光(左) -->
+  <ellipse cx="196" cy="171" rx="4" ry="4.5" fill="#ffffff"/>
+  <ellipse cx="189" cy="176" rx="2" ry="2.5" fill="#ffffff" fill-opacity="0.6"/>
+  <!-- 眼睛(右) -->
+  <ellipse cx="228" cy="177" rx="13" ry="15" fill="#1e1b4b"/>
+  <ellipse cx="228" cy="177" rx="13" ry="15" fill="url(#eyeShine)"/>
+  <ellipse cx="228" cy="175" rx="8" ry="9" fill="#2e1065"/>
+  <!-- 眼睛高光(右) -->
+  <ellipse cx="232" cy="171" rx="4" ry="4.5" fill="#ffffff"/>
+  <ellipse cx="225" cy="176" rx="2" ry="2.5" fill="#ffffff" fill-opacity="0.6"/>
+
+  <!-- 嘴巴 - 微笑 -->
+  <path d="M 203 200 Q 210 207 217 200" stroke="#92400e" stroke-width="2" stroke-linecap="round" fill="none"/>
+
+  <!-- Chip ID 文字 -->
+  <text x="210" y="183" font-family="monospace" font-size="8" fill="#fde68a" text-anchor="middle" font-weight="bold">ESP</text>
+
+  <!-- ===== 标题区 ===== -->
+  <!-- 标题发光背景 -->
+  <rect x="320" y="100" width="900" height="120" rx="20" fill="#ffffff" fill-opacity="0.08"/>
 
   <!-- 主标题 -->
-  <text x="640" y="170" font-family="Helvetica, Arial, sans-serif"
-        font-size="76" font-weight="800" fill="#ffffff"
-        text-anchor="middle" letter-spacing="-2">ESP-AT Commander</text>
+  <text x="770" y="158" font-family="Arial, Helvetica, sans-serif"
+        font-size="68" font-weight="900" fill="#ffffff"
+        text-anchor="middle" letter-spacing="-1"
+        style="filter: drop-shadow(0 2px 8px rgba(124,58,237,0.6))">
+    ESP-AT Commander
+  </text>
 
   <!-- 副标题 -->
-  <text x="640" y="220" font-family="Helvetica, Arial, sans-serif"
-        font-size="20" font-weight="400" fill="#ffffff" fill-opacity="0.78"
-        text-anchor="middle" letter-spacing="4">ESP32 / ESP8266 AT COMMAND DEBUGGER</text>
+  <text x="770" y="198" font-family="Arial, Helvetica, sans-serif"
+        font-size="18" font-weight="400" fill="#ffffff" fill-opacity="0.85"
+        text-anchor="middle" letter-spacing="3">
+    ESP32 / ESP8266 AT Command Debugger
+  </text>
+
+  <!-- ===== 装饰:右上角小型电路图案 ===== -->
+  <g stroke="#ffffff" stroke-opacity="0.25" stroke-width="1.5" fill="none" stroke-linecap="round">
+    <line x1="1200" y1="110" x2="1230" y2="110"/>
+    <line x1="1230" y1="110" x2="1230" y2="130"/>
+    <circle cx="1200" cy="110" r="3" fill="#ffffff" fill-opacity="0.4" stroke="none"/>
+    <circle cx="1230" cy="130" r="3" fill="#ffffff" fill-opacity="0.4" stroke="none"/>
+  </g>
+  <g stroke="#ffffff" stroke-opacity="0.2" stroke-width="1.5" fill="none" stroke-linecap="round">
+    <line x1="1200" y1="160" x2="1210" y2="160"/>
+    <line x1="1210" y1="160" x2="1210" y2="185"/>
+    <circle cx="1200" cy="160" r="3" fill="#ffffff" fill-opacity="0.4" stroke="none"/>
+    <circle cx="1210" cy="185" r="3" fill="#ffffff" fill-opacity="0.4" stroke="none"/>
+  </g>
+
+  <!-- ===== 底部装饰:波浪线条 ===== -->
+  <path d="M 0 305 Q 160 285 320 300 Q 480 315 640 300 Q 800 285 960 300 Q 1120 315 1280 300 L 1280 320 L 0 320 Z"
+        fill="#ffffff" fill-opacity="0.06"/>
+  <path d="M 0 312 Q 160 295 320 308 Q 480 321 640 308 Q 800 295 960 308 Q 1120 321 1280 308 L 1280 320 L 0 320 Z"
+        fill="#ffffff" fill-opacity="0.04"/>
 </svg>
