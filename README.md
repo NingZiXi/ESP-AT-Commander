@@ -38,7 +38,7 @@
 
 ## 📸 截图
 
-![ESP-AT Commander Banner](./docs/banner.svg)
+![ESP-AT Commander Banner](./docs/banner.png)
 
 ## 🛠️ 快速开始
 
