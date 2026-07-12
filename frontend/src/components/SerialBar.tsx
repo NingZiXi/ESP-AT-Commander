@@ -25,7 +25,7 @@ interface Props {
 export function SerialBar({ onScriptToggle, scriptActive, onOpenSettings }: Props = {}) {
   const {
     status, port, baud, dataBits, stopBits, parity,
-    error, setStatus, setPort, setBaud, setDataBits, setStopBits, setParity,
+    setStatus, setPort, setBaud, setDataBits, setStopBits, setParity,
     setError, setConnectedAt,
   } = useSerialStore();
   const { theme, set: setTheme } = useThemeStore();

@@ -325,7 +325,6 @@ export function ScriptPanel() {
     setPhantomPos({ x: e.clientX, y: e.clientY });
     const stepsEl = document.querySelector(".sp-steps");
     if (!stepsEl) return;
-    const rect = stepsEl.getBoundingClientRect();
     const stepEls = stepsEl.querySelectorAll<HTMLElement>(".sp-step");
     // 计算插入位置：根据鼠标 Y 在每个 step 中线之上还是之下
     let insertAt = stepEls.length;
@@ -487,16 +486,6 @@ export function ScriptPanel() {
     setShowSaveTemplate(false);
     setTemplateName("");
     setSelectedSteps(new Set());
-  };
-
-  /** 从模板插入步骤到末尾 */
-  const handleInsertTemplate = (tpl: StepTemplate) => {
-    setScript((prev) => {
-      if (!prev) return prev;
-      const inserted = tpl.steps.map((s) => JSON.parse(JSON.stringify(s)));
-      return { ...prev, steps: [...prev.steps, ...inserted] };
-    });
-    setDirty(true);
   };
 
   /** 新建脚本并立即填入模板步骤 */

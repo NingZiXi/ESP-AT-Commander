@@ -11,7 +11,6 @@ type Category = "about" | "appearance" | "general" | "shortcuts" | "data";
 // === 项目信息（后续创建仓库后只需改下面两个常量） ===
 const GITHUB_PROFILE = "https://github.com/NingZiXi";
 const GITHUB_REPO_URL = "https://github.com/NingZiXi/ESP-AT-Commander";
-const AUTHOR_NAME = "NingZiXi";
 const AUTHOR_DISPLAY = "NingZiXi (@NingZiXi)";
 
 const CATEGORIES: { id: Category; label: string; icon: string }[] = [
