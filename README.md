@@ -16,11 +16,11 @@
 [![Platform](https://img.shields.io/badge/Platform-Windows%20%7C%20macOS%20%7C%20Linux-7c3aed)](#-快速开始)
 [![GitHub release](https://img.shields.io/github/v/release/NingZiXi/ESP-AT-Commander?color=7c3aed)](https://github.com/NingZiXi/ESP-AT-Commander/releases)
 
-### ⬇️ 直接下载
+### ⬇️ 下载安装包
 
-[![Windows](https://img.shields.io/badge/Windows-0078D4?style=flat-square&logo=windows&logoColor=white)](https://github.com/NingZiXi/ESP-AT-Commander/releases/latest/download/ESP-AT.Commander_0.1.0_x64-setup.exe)
-[![macOS](https://img.shields.io/badge/macOS-222222?style=flat-square&logo=apple&logoColor=white)](https://github.com/NingZiXi/ESP-AT-Commander/releases/latest/download/ESP-AT.Commander_0.1.0_aarch64.dmg)
-[![Linux](https://img.shields.io/badge/Linux-FCC624?style=flat-square&logo=linux&logoColor=black)](https://github.com/NingZiXi/ESP-AT-Commander/releases/latest/download/ESP-AT.Commander_0.1.0_amd64.AppImage)
+[<kbd>![Windows](https://img.shields.io/badge/Windows-0078D4?style=for-the-badge&logo=windows&logoColor=white)</kbd>](https://github.com/NingZiXi/ESP-AT-Commander/releases/latest/download/ESP-AT.Commander_0.1.0_x64-setup.exe)
+[<kbd>![macOS](https://img.shields.io/badge/macOS-222222?style=for-the-badge&logo=apple&logoColor=white)</kbd>](https://github.com/NingZiXi/ESP-AT-Commander/releases/latest/download/ESP-AT.Commander_0.1.0_aarch64.dmg)
+[<kbd>![Linux](https://img.shields.io/badge/Linux-FCC624?style=for-the-badge&logo=linux&logoColor=black)</kbd>](https://github.com/NingZiXi/ESP-AT-Commander/releases/latest/download/ESP-AT.Commander_0.1.0_amd64.AppImage)
 
 </div>
 
